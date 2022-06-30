@@ -5,7 +5,7 @@ import 'package:sqlflite_demo/screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDataBase();
+  
   runApp(const MyApp());
 }
 

@@ -1,24 +1,22 @@
 class DbModel {
   int? id;
   String name;
-
-  int age;
-  String admissionNumber;
-  String std;
-  String parent;
-  String image;
+  String contact;
+  String description;
 
   DbModel({
     required this.name,
-    required this.admissionNumber,
-    required this.age,
-    required this.std,
-    required this.parent,
-    required this.image,
+    required this.contact,
+    required this.description,
     this.id,
   });
 
+  userMap() {
+    var mapping = Map<String, dynamic>();
+    mapping['id'] = id;
+    mapping['contact'] = contact;
+    mapping['description'] = description;
 
-
-  
+    return mapping;
+  }
 }
