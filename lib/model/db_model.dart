@@ -1,15 +1,15 @@
 class DbModel {
   int? id;
-  String name;
-  String contact;
-  String description;
+  String? name;
+  String? contact;
+  String? description;
 
-  DbModel({
-    required this.name,
-    required this.contact,
-    required this.description,
-    this.id,
-  });
+  // DbModel({
+  //    this.name,
+  //   this.contact,
+  //   this.description,
+  //   this.id,
+  // });
 
   userMap() {
     var mapping = Map<String, dynamic>();

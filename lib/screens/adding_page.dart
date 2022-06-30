@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sqlflite_demo/model/db_model.dart';
+import 'package:sqlflite_demo/service/user_service.dart';
 
 class AddingPage extends StatefulWidget {
   const AddingPage({super.key});
@@ -14,6 +16,7 @@ class _AddingPageState extends State<AddingPage> {
   bool _validateName = false;
   bool _validateContact = false;
   bool _validateDescription = false;
+  var _userServices = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class _AddingPageState extends State<AddingPage> {
           Padding(
             padding: const EdgeInsets.only(left: 60, right: 60),
             child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     _nameController.text.isEmpty
                         ? _validateName = true
@@ -69,12 +72,18 @@ class _AddingPageState extends State<AddingPage> {
                     _descriptionController.text.isEmpty
                         ? _validateDescription = true
                         : _validateDescription = false;
-                    if (_validateName == false && _validateContact == false ||
-                        _validateDescription) {
-                      // print("data can save");
-
-                    }
                   });
+                  if (_validateName == false && _validateContact == false ||
+                      _validateDescription == false) {
+                    // print("data can save");
+                    var _user = DbModel();
+                    _user.name = _nameController.text;
+                    _user.contact = _ContactController.text;
+                    _user.description = _descriptionController.text;
+
+                    var result = await _userServices.saveUser(_user);
+                    print(result);
+                  }
                 },
                 child: Text("Add")),
           )
