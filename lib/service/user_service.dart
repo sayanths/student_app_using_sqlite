@@ -14,4 +14,8 @@ class UserService {
   readAllUser() async {
     return await _repository.readAllData('users');
   }
+
+  updateUser(DbModel user) async {
+    return await _repository.updateData("users", user.userMap());
+  }
 }

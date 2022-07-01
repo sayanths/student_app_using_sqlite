@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqlflite_demo/db_functions/db_functions.dart';
+import 'package:sqlflite_demo/model/db_model.dart';
 
 class Repository {
   late DatabaseConnection _databaseConnection;
@@ -33,7 +34,7 @@ class Repository {
     return await connection?.query(table, where: 'id=?', whereArgs: [itemId]);
   }
 
-  updateUser(table, data) async {
+  updateData( table, data) async {
     var connection = await database;
     return await connection
         ?.update(table, data, where: 'id=?', whereArgs: [data['id']]);

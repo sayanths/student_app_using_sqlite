@@ -4,16 +4,10 @@ class DbModel {
   String? contact;
   String? description;
 
-  // DbModel({
-  //    this.name,
-  //   this.contact,
-  //   this.description,
-  //   this.id,
-  // });
-
   userMap() {
     var mapping = Map<String, dynamic>();
     mapping['id'] = id;
+    mapping['name'] = name;
     mapping['contact'] = contact;
     mapping['description'] = description;
 

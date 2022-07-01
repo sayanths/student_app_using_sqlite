@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:sqlflite_demo/model/db_model.dart';
 import 'package:sqlflite_demo/screens/adding_page.dart';
+import 'package:sqlflite_demo/screens/edit_user/edit_user.dart';
+import 'package:sqlflite_demo/screens/view_user/view_user.dart';
 import 'package:sqlflite_demo/service/user_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,6 +38,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  _showSucesssnackBar(String message) {
+    ScaffoldMessenger.of(context);
+    SnackBar(content: Text(message));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,17 +55,37 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (BuildContext context, int index) {
             return Card(
               child: ListTile(
-                title:Text(_userList[index].name??'') ,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ViewUser(
+                            user: _userList[index],
+                          )));
+                },
+                title: Text(_userList[index].name ?? ''),
                 leading: Icon(Icons.person),
-                subtitle: Text(_userList[index].contact??''),
+                subtitle: Text(_userList[index].contact ?? ''),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(onPressed: (){
-                      
-                    }, icon: Icon(Icons.edit,color: Color.fromARGB(255, 14, 139, 18),)),
-                     IconButton(onPressed: (){}, icon: Icon(Icons.delete,color: Colors.red,)),
-
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditUser(
+                                    user: _userList[index],
+                                  )));
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          color: Color.fromARGB(255, 14, 139, 18),
+                        )),
+                    IconButton(
+                        onPressed: () {
+                        
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        )),
                   ],
                 ),
               ),
@@ -66,7 +94,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddingPage()));
+              .push(MaterialPageRoute(builder: (context) => AddingPage()))
+              .then((data) {
+            if (data != null) {
+              getAllDetails();
+              _showSucesssnackBar("added sucessfully");
+            }
+          });
         },
         child: Icon(Icons.add),
       ),

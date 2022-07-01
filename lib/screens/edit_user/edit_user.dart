@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sqlflite_demo/model/db_model.dart';
 import 'package:sqlflite_demo/service/user_service.dart';
 
-class AddingPage extends StatefulWidget {
-  const AddingPage({super.key});
+class EditUser extends StatefulWidget {
+  final DbModel user;
+
+  const EditUser({super.key, required this.user});
 
   @override
-  State<AddingPage> createState() => _AddingPageState();
+  State<EditUser> createState() => _EditUserState();
 }
 
-class _AddingPageState extends State<AddingPage> {
+class _EditUserState extends State<EditUser> {
   final _nameController = TextEditingController();
   final _ContactController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -17,6 +19,15 @@ class _AddingPageState extends State<AddingPage> {
   bool _validateContact = false;
   bool _validateDescription = false;
   var _userServices = UserService();
+
+  @override
+  void initState() {
+    setState(() {
+      _nameController.text = widget.user.name ?? '';
+      _ContactController.text = widget.user.contact ?? '';
+      _descriptionController.text = widget.user.description ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,15 +88,16 @@ class _AddingPageState extends State<AddingPage> {
                       _validateDescription == false) {
                     // print("data can save");
                     var _user = DbModel();
+                    _user.id = widget.user.id;
                     _user.name = _nameController.text;
                     _user.contact = _ContactController.text;
                     _user.description = _descriptionController.text;
 
-                    var result = await _userServices.saveUser(_user);
+                    var result = await _userServices.updateUser(_user);
                     Navigator.pop(context, result);
                   }
                 },
-                child: Text("Add")),
+                child: Text("Update")),
           )
         ],
       )),
