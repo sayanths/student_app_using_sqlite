@@ -18,7 +18,7 @@ class _EditUserState extends State<EditUser> {
   bool _validateName = false;
   bool _validateContact = false;
   bool _validateDescription = false;
-  var _userServices = UserService();
+  final _userServices = UserService();
 
   @override
   void initState() {
@@ -27,6 +27,7 @@ class _EditUserState extends State<EditUser> {
       _ContactController.text = widget.user.contact ?? '';
       _descriptionController.text = widget.user.description ?? '';
     });
+    super.initState();
   }
 
   @override
@@ -87,13 +88,13 @@ class _EditUserState extends State<EditUser> {
                   if (_validateName == false && _validateContact == false ||
                       _validateDescription == false) {
                     // print("data can save");
-                    var _user = DbModel();
-                    _user.id = widget.user.id;
-                    _user.name = _nameController.text;
-                    _user.contact = _ContactController.text;
-                    _user.description = _descriptionController.text;
+                    var userUpdate = DbModel();
+                    userUpdate.id = widget.user.id;
+                    userUpdate.name = _nameController.text;
+                    userUpdate.contact = _ContactController.text;
+                    userUpdate.description = _descriptionController.text;
 
-                    var result = await _userServices.updateUser(_user);
+                    var result = await _userServices.updateUser(userUpdate);
                     Navigator.pop(context, result);
                   }
                 },

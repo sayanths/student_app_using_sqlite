@@ -40,8 +40,8 @@ class Repository {
         ?.update(table, data, where: 'id=?', whereArgs: [data['id']]);
   }
 
-  deleteUser(table, userId) async {
+  deleteUserById(table, itemId) async {
     var connection = await database;
-    return await connection?.rawDelete("delete from $table where id=$userId");
+    return await connection?.rawDelete("delete from $table where id=$itemId");
   }
 }

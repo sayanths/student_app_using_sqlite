@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqlflite_demo/db_functions/db_functions.dart';
 import 'package:sqlflite_demo/screens/home_page.dart';
 
 void main() async {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqlflite_demo/model/db_model.dart';
 import 'package:sqlflite_demo/screens/adding_page.dart';
 import 'package:sqlflite_demo/screens/edit_user/edit_user.dart';
@@ -35,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getAllDetails();
+    
     super.initState();
   }
 
@@ -43,12 +43,35 @@ class _HomePageState extends State<HomePage> {
     SnackBar(content: Text(message));
   }
 
+  _deleteFormDialgue(BuildContext context, userId) {
+    return showDialog(
+        context: context,
+        builder: (param) {
+          return AlertDialog(
+            title: Text("Do you want to delete?"),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    var result = await _userService.deleteUser(userId);
+                    
+                  },
+                  child: Text("Yes")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("No")),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Sqlite Demo"),
+        title: const Text("Sqlite Demo"),
       ),
       body: ListView.builder(
           itemCount: _userList.length,
@@ -62,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                           )));
                 },
                 title: Text(_userList[index].name ?? ''),
-                leading: Icon(Icons.person),
+                leading: const Icon(Icons.person),
                 subtitle: Text(_userList[index].contact ?? ''),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -74,15 +97,15 @@ class _HomePageState extends State<HomePage> {
                                     user: _userList[index],
                                   )));
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit,
                           color: Color.fromARGB(255, 14, 139, 18),
                         )),
                     IconButton(
                         onPressed: () {
-                        
+                          _deleteFormDialgue(context, _userList[index].id);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete,
                           color: Colors.red,
                         )),
@@ -94,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddingPage()))
+              .push(MaterialPageRoute(builder: (context) => const AddingPage()))
               .then((data) {
             if (data != null) {
               getAllDetails();
@@ -102,7 +125,7 @@ class _HomePageState extends State<HomePage> {
             }
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

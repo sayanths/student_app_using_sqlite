@@ -16,6 +16,12 @@ class UserService {
   }
 
   updateUser(DbModel user) async {
-    return await _repository.updateData("users", user.userMap());
+    return await _repository.updateData('users', user.userMap());
   }
+
+  deleteUser( userId) async{
+     return await _repository.deleteUserById("users", userId);
+  }
+ 
+
 }
