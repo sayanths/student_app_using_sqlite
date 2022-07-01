@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
               .then((data) {
             if (data != null) {
               getAllDetails();
-              _showSucesssnackBar("added sucessfully");
+              _showSucesssnackBar("user details added sucessfully");
             }
           });
         },
